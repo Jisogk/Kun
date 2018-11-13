@@ -37,7 +37,6 @@ public class Player : MonoBehaviour {
   public GameObject playerPanel;
   private bool playerPanelActive;
   private GridLayoutGroup moduleLayout;
-  private Dictionary<ModuleType, string> modImgMap;
 
   private Text ElectricText;
   private Text ComputationText;
@@ -53,24 +52,7 @@ public class Player : MonoBehaviour {
     capcollider = GetComponent<CapsuleCollider2D>();
     GameObject modulePanel = playerPanel.transform.Find("ModulePanel").gameObject;
     moduleLayout = modulePanel.GetComponent<GridLayoutGroup>();
-    modImgMap = new Dictionary<ModuleType, string>();
-    modImgMap.Add(ModuleType.Core, "001");
-    modImgMap.Add(ModuleType.Power, "002");
-    modImgMap.Add(ModuleType.Energy, "003");
-    modImgMap.Add(ModuleType.Computation, "005");
-    modImgMap.Add(ModuleType.Armor, "006");
-    modImgMap.Add(ModuleType.Weapon, "007");
 
-    moduleList = new Module[9];
-    moduleList[0] = new Module(ModuleType.Weapon, 100, 100, 10, -5, 0, -5);
-    moduleList[1] = new Module(ModuleType.Core, 100, 100, 10, 10, 100, 10);
-    moduleList[2] = new Module(ModuleType.Armor, 100, 100, 10, 0);
-    moduleList[3] = new Module(ModuleType.Energy, 100, 100, 10, 20, 100);
-    moduleList[4] = null;
-    moduleList[5] = new Module(ModuleType.Computation, 100, 100, 10, -5, 0, 10);
-    moduleList[6] = new Module(ModuleType.Power, 100, 100, 10, -5, 0, -5, 100, 10);
-    moduleList[7] = null;
-    moduleList[8] = new Module(ModuleType.Power, 100, 100, 10, -5, 0, -5, 100, 10);
 
     for(int i = 0; i < 9; i ++)
     {
@@ -88,7 +70,7 @@ public class Player : MonoBehaviour {
         totalLoad += m.load;
 
         Image img = moduleLayout.transform.GetChild(i).gameObject.GetComponent<Image>();
-        Sprite spr = Resources.Load<Sprite>("Images/" + modImgMap[m.type]);
+        Sprite spr = Resources.Load<Sprite>("Images/" + ModuleInfo.instance.modImgMap[m.type]);
         img.sprite = spr;
 
         Color c;
