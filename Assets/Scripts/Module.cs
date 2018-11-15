@@ -45,7 +45,7 @@ public class Module {
       case ModuleType.Battery:
         return BatteryModule.sample();
       default:
-        return null;
+        return new Module(ModuleType.None, 0, 0, 0);
     }
   }
 }

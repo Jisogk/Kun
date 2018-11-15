@@ -13,7 +13,7 @@ public class DistributionPanel : MonoBehaviour {
     {
       GameObject slot = transform.GetChild(i).gameObject;
       slot.GetComponent<DistributeSwitch>().position = i;
-      if(ModuleInfo.instance.moduleList[i] != null)
+      if(ModuleInfo.instance.moduleList[i].type != ModuleType.None)
       {
         string name = ModuleInfo.instance.modImgMap[ModuleInfo.instance.moduleList[i].type];
         slot.GetComponent<Image>().sprite = Resources.Load<Sprite>("Images/" + name);
@@ -23,13 +23,28 @@ public class DistributionPanel : MonoBehaviour {
         slot.GetComponent<Image>().enabled = false;
       }
     }
-    UpdateStatusText();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+  void Start()
+  {
+    UpdatePanel();
+  }
+
+  // Update is called once per frame
+  void Update () {
 		
 	}
+
+  public void UpdatePanel()
+  {
+    int curIndex = PlanManager.instance.currentPlanIndex;
+    for(int i = 0; i < ModuleInfo.TOT; i ++)
+    {
+      GameObject slot = transform.GetChild(i).gameObject;
+      slot.GetComponent<DistributeSwitch>().SetOpen(PlanManager.instance.planList[curIndex][i]);
+    }
+    UpdateStatusText();
+  }
 
   public void UpdateStatusText()
   {
@@ -40,7 +55,7 @@ public class DistributionPanel : MonoBehaviour {
     for(int i = 0; i < ModuleInfo.TOT; i ++)
     {
       Module m = ModuleInfo.instance.moduleList[i];
-      if (m != null && transform.GetChild(i).gameObject.GetComponent<DistributeSwitch>().isOpen)
+      if (transform.GetChild(i).gameObject.GetComponent<DistributeSwitch>().isOpen)
       {
         totalElecRestore += m.elecRestore;
         totalElecContribution += m.elecContribution;

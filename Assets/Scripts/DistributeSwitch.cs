@@ -29,25 +29,25 @@ public class DistributeSwitch : MonoBehaviour, IPointerClickHandler {
 		
 	}
 
-  public void Click()
+  public void OnPointerClick(PointerEventData eventData)
   {
-
+    SetOpen(!isOpen);
+    transform.parent.gameObject.GetComponent<DistributionPanel>().UpdateStatusText();
   }
 
-  public void OnPointerClick(PointerEventData eventData)
+  public void SetOpen(bool flag)
   {
     ModuleType modType = ModuleInfo.instance.moduleList[position].type;
     if (modType == ModuleType.Weapon || modType == ModuleType.Power)
     {
 
-      if (isOpen)
+      if (!flag)
       {
         GetComponent<Image>().color = darkColor;
       }
       else
         GetComponent<Image>().color = origColor;
-      isOpen = !isOpen;
-      transform.parent.gameObject.GetComponent<DistributionPanel>().UpdateStatusText();
+      isOpen = flag;
     }
   }
 }

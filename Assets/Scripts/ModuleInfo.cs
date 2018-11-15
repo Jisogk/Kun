@@ -10,6 +10,7 @@ public class ModuleInfo : MonoBehaviour {
   public const int TOT = 9;
 
   public Dictionary<ModuleType, string> modImgMap;
+  private GameObject moduleSlotPanel;
 
   // Use this for initialization
   void Awake () {
@@ -36,6 +37,8 @@ public class ModuleInfo : MonoBehaviour {
     modImgMap.Add(ModuleType.Repair, "010");
     modImgMap.Add(ModuleType.None, "");
     modImgMap.Add(ModuleType.Locked, "");
+
+    moduleSlotPanel = GameObject.Find("ModuleSlotPanel");
   }
 	
 	// Update is called once per frame
@@ -45,8 +48,7 @@ public class ModuleInfo : MonoBehaviour {
 
   public bool checkModules()
   {
-    GameObject panel = GameObject.FindWithTag("ModuleSlotPanel");
-    if (panel == null)
+    if (moduleSlotPanel == null)
     {
       Debug.Log("panel not found");
       return false;
@@ -55,9 +57,9 @@ public class ModuleInfo : MonoBehaviour {
     int coreCount = 0;
     for(int i = 0; i < TOT; i ++)
     {
-      GameObject slot = panel.transform.GetChild(i).gameObject;
+      GameObject slot = moduleSlotPanel.transform.GetChild(i).gameObject;
       moduleList[i] = Module.sample(slot.GetComponent<DragAndDrop>().moduleType);
-      if (moduleList[i] != null && moduleList[i].type == ModuleType.Core)
+      if (moduleList[i].type == ModuleType.Core)
         coreCount++;
     }
 
