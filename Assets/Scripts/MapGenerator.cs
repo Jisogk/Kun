@@ -5,8 +5,8 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour {
 
   private int[,] map;
-  private int width_cnt = 20;
-  private int height_cnt = 20;
+  private int width_cnt = 66;
+  private int height_cnt = 66;
   private float blocksize = 4;
 
   [Range(0, 100)]
@@ -25,8 +25,9 @@ public class MapGenerator : MonoBehaviour {
     GenerateMap();
     InstantiateMap();
     //player = Instantiate(robot, new Vector3(blocksize, blocksize * (height_cnt - 2), 0), Quaternion.identity) as GameObject;
-    Vector2 initpos = new Vector2(blocksize, blocksize * (height_cnt - 2));
-    player.GetComponent<Rigidbody2D>().MovePosition(initpos);
+    Vector2 initpos = new Vector2(blocksize * 1.5f, blocksize * (height_cnt - 3));
+    //player.GetComponent<Rigidbody2D>().MovePosition(initpos);
+    player.transform.position = initpos;
 	}
 	
 	// Update is called once per frame
@@ -142,7 +143,11 @@ public class MapGenerator : MonoBehaviour {
 
   void InstantiateMap()
   {
-    map[height_cnt - 2, 1] = 0;
+    for(int i = height_cnt - 2; i >= height_cnt - 4; i --)
+    {
+      map[i, 1] = map[i, 2] = 0;
+    }
+
     for(int i = 0; i < height_cnt; i ++)
     {
       for(int j = 0; j < width_cnt; j ++)

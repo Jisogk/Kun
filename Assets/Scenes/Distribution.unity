@@ -1752,7 +1752,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1218924798}
-        m_MethodName: LastPlanClick
+        m_MethodName: PrevPlanClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

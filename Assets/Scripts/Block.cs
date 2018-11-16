@@ -18,7 +18,7 @@ public class Block : MonoBehaviour {
 
   private void OnTriggerEnter2D(Collider2D collision)
   {
-    if(collision.name == "bullet(Clone)")
+    if(collision.tag == "Bullet")
     {
       hp--;
       if(hp <= 0)

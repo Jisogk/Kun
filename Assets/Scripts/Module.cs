@@ -13,8 +13,6 @@ public class Module {
   public int elecContribution;
   public int elecRestore;
   public int computingContribution;
-  public int force;
-  public int power;
 
   public Module(ModuleType _type, int _maxHp, int _load, int _elecContribution)
   {
@@ -22,7 +20,7 @@ public class Module {
     hp = maxHp = _maxHp;
     load = _load;
     elecContribution = _elecContribution;
-    elecRestore = computingContribution = force = power = 0;
+    elecRestore = computingContribution = 0;
   }
 
   public static Module sample(ModuleType type)
@@ -133,22 +131,25 @@ public class ArmorModule : Module {
 public class WeaponModule : Module {
   public DamageType dmgType;
   public int singleDmg;
-  public int shootingSpeed;
+  public float shootingSpeed;
   public int jointNumber;
 
+  public float lastShootTime;
+
   public WeaponModule(int _maxhp, int _load, int _elecContribution,
-    DamageType _dmgType, int _singleDmg, int _shootingSpeed, int _jointNumber) : 
+    DamageType _dmgType, int _singleDmg, float _shootingSpeed, int _jointNumber) : 
     base(ModuleType.Weapon, _maxhp, _load, _elecContribution)
   {
     dmgType = _dmgType;
     singleDmg = _singleDmg;
     shootingSpeed = _shootingSpeed;
     jointNumber = _jointNumber;
+    lastShootTime = -10f;
   }
 
   public static WeaponModule sample()
   {
-    return new WeaponModule(300, 1, -5, DamageType.Kinetic, 2, 5, 1);
+    return new WeaponModule(300, 1, -5, DamageType.Kinetic, 2, 0.2f, 1);
   }
 }
 

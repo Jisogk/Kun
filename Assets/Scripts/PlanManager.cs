@@ -54,4 +54,29 @@ public class PlanManager : MonoBehaviour {
   {
     return planList.Count;
   }
+
+  public bool[] GetCurrentPlan()
+  {
+    return planList[currentPlanIndex];
+  }
+
+  public bool SwitchToPrevPlan()
+  {
+    if(currentPlanIndex > 0)
+    {
+      currentPlanIndex--;
+      return true;
+    }
+    return false;
+  }
+
+  public bool SwitchToNextPlan()
+  {
+    if(currentPlanIndex != planList.Count - 1)
+    {
+      currentPlanIndex++;
+      return true;
+    }
+    return false;
+  }
 }

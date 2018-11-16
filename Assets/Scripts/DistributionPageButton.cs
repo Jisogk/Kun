@@ -61,20 +61,16 @@ public class DistributionPageButton : MonoBehaviour {
     SceneManager.LoadScene("Maingame");
   }
 
-  public void LastPlanClick()
+  public void PrevPlanClick()
   {
-    if (PlanManager.instance.currentPlanIndex == 0)
-      return;
-    PlanManager.instance.currentPlanIndex--;
+    PlanManager.instance.SwitchToPrevPlan();
     planNumberText.text = "方案" + (PlanManager.instance.currentPlanIndex + 1);
     distributionPanel.GetComponent<DistributionPanel>().UpdatePanel();
   }
 
   public void NextPlanClick()
   {
-    if (PlanManager.instance.currentPlanIndex == PlanManager.instance.GetPlanCount() - 1)
-      return;
-    PlanManager.instance.currentPlanIndex++;
+    PlanManager.instance.SwitchToNextPlan();
     planNumberText.text = "方案" + (PlanManager.instance.currentPlanIndex + 1);
     distributionPanel.GetComponent<DistributionPanel>().UpdatePanel();
   }

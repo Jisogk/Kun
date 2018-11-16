@@ -689,11 +689,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4789743494672784, guid: 880d33994b0959c4d819023e67f569bf, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -3.468
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4789743494672784, guid: 880d33994b0959c4d819023e67f569bf, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.429
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4789743494672784, guid: 880d33994b0959c4d819023e67f569bf, type: 2}
       propertyPath: m_LocalPosition.z
@@ -726,7 +726,7 @@ Prefab:
     - target: {fileID: 114749816989333888, guid: 880d33994b0959c4d819023e67f569bf,
         type: 2}
       propertyPath: slipspeed
-      value: 2.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114749816989333888, guid: 880d33994b0959c4d819023e67f569bf,
         type: 2}
@@ -763,6 +763,28 @@ Prefab:
       propertyPath: playerPanel
       value: 
       objectReference: {fileID: 674537350}
+    - target: {fileID: 4789743494672784, guid: 880d33994b0959c4d819023e67f569bf, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789743494672784, guid: 880d33994b0959c4d819023e67f569bf, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789743494672784, guid: 880d33994b0959c4d819023e67f569bf, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 114749816989333888, guid: 880d33994b0959c4d819023e67f569bf,
+        type: 2}
+      propertyPath: gamma
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114749816989333888, guid: 880d33994b0959c4d819023e67f569bf,
+        type: 2}
+      propertyPath: alpha
+      value: 500
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 880d33994b0959c4d819023e67f569bf, type: 2}
   m_IsPrefabParent: 0
@@ -1412,7 +1434,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 48
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
