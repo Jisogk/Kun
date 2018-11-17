@@ -14,6 +14,8 @@ public class Module {
   public int elecRestore;
   public int computingContribution;
 
+  public GameObject obj;
+
   public Module(ModuleType _type, int _maxHp, int _load, int _elecContribution)
   {
     type = _type;
@@ -136,10 +138,11 @@ public class WeaponModule : Module {
 
   public float lastShootTime;
 
-  public WeaponModule(int _maxhp, int _load, int _elecContribution,
+  public WeaponModule(int _maxhp, int _load, int _elecContribution, int _computingContribution,
     DamageType _dmgType, int _singleDmg, float _shootingSpeed, int _jointNumber) : 
     base(ModuleType.Weapon, _maxhp, _load, _elecContribution)
   {
+    computingContribution = _computingContribution;
     dmgType = _dmgType;
     singleDmg = _singleDmg;
     shootingSpeed = _shootingSpeed;
@@ -149,7 +152,7 @@ public class WeaponModule : Module {
 
   public static WeaponModule sample()
   {
-    return new WeaponModule(300, 1, -5, DamageType.Kinetic, 2, 0.2f, 1);
+    return new WeaponModule(300, 1, -5, -100, DamageType.Kinetic, 2, 0.2f, 1);
   }
 }
 

@@ -12,6 +12,8 @@ public class Player : MonoBehaviour {
   public float slipspeed;
   //public float boostspeed;
   public GameObject bullet;
+  public GameObject emptyModule;
+  public GameObject weaponModule;
   public float gamma;
   public float alpha;
 
@@ -25,8 +27,8 @@ public class Player : MonoBehaviour {
   private float distToGround;
   public LayerMask groundLayer;
 
-  private int totalElecRestore = 0;
-  private int currentElecRestore = 0;
+  private float totalElecRestore = 0;
+  private float currentElecRestore = 0;
   private int totalElecContribution = 0;
   private int totalComputingProduction = 0;
   private int totalComputingUsing = 0;
@@ -43,17 +45,21 @@ public class Player : MonoBehaviour {
   private bool playerPanelActive;
   private GridLayoutGroup moduleLayout;
 
-  private Text ElectricText;
-  private Text ComputationText;
-  private Text HpText;
+  private Text electricText;
+  private Text computationText;
+  private Text hpText;
+  public GameObject gameOverText;
+  private bool gameOver;
 
   private float timer;
   private float beginPushTime;
 
   private bool[] curPlan;
+  private Vector3[] modulePostion;
 
 	// Use this for initialization
 	void Start () {
+    gameOver = false;
     body = GetComponent<Rigidbody2D>();
     toRight = true;
     onAirDirection = 0;
@@ -62,6 +68,17 @@ public class Player : MonoBehaviour {
     GameObject modulePanel = playerPanel.transform.Find("ModulePanel").gameObject;
     moduleLayout = modulePanel.GetComponent<GridLayoutGroup>();
     PlanManager.instance.currentPlanIndex = 0;
+    modulePostion = new Vector3[ModuleInfo.TOT];
+    modulePostion[0] = new Vector3(-1.5f, 0f, -1f);
+    for(int i = 0; i < 3; i ++)
+    {
+      float yOffset = -i * 1.5f;
+      for(int j = 0; j < 3; j ++)
+      {
+        float xOffset = j * 1.5f;
+        modulePostion[i * 3 + j] = modulePostion[0] + new Vector3(xOffset, yOffset, 0f);
+      }
+    }
 
     for(int i = 0; i < ModuleInfo.TOT; i ++)
     {
@@ -77,13 +94,30 @@ public class Player : MonoBehaviour {
         Sprite spr = Resources.Load<Sprite>("Images/" + ModuleInfo.instance.modImgMap[m.type]);
         img.sprite = spr;
         workingModuleCount++;
+
+        GameObject moduleObj;
+        if(m.type == ModuleType.Weapon)
+        {
+          //moduleObj = Instantiate(weaponModule, modulePostion[i], Quaternion.identity) as GameObject;
+          moduleObj = Instantiate(weaponModule, transform) as GameObject;
+        }
+        else
+        {
+          //moduleObj = Instantiate(emptyModule, modulePostion[i], Quaternion.identity) as GameObject;
+          moduleObj = Instantiate(emptyModule, transform) as GameObject;
+        }
+        //moduleObj.transform.parent = transform;
+        moduleObj.transform.position = transform.TransformPoint(modulePostion[i]);
+        m.obj = moduleObj;
+        m.obj.GetComponent<ModuleObj>().index = i;
       }
     }
+    currentElecRestore = totalElecRestore;
     body.mass = totalLoad;
 
-    ElectricText = playerPanel.transform.Find("ElectricText").gameObject.GetComponent<Text>();
-    ComputationText = playerPanel.transform.Find("ComputationText").gameObject.GetComponent<Text>();
-    HpText = playerPanel.transform.Find("HpText").gameObject.GetComponent<Text>();
+    electricText = playerPanel.transform.Find("ElectricText").gameObject.GetComponent<Text>();
+    computationText = playerPanel.transform.Find("ComputationText").gameObject.GetComponent<Text>();
+    hpText = playerPanel.transform.Find("HpText").gameObject.GetComponent<Text>();
 
     ChangePlan();
 
@@ -92,14 +126,15 @@ public class Player : MonoBehaviour {
 
   void UpdateText()
   {
-    ElectricText.text = string.Format("Electricity: {0}/{1} {2:+0;-#}/s", currentElecRestore, totalElecRestore, totalElecContribution);
-    ComputationText.text = string.Format("Computation: {0}/{1}", totalComputingUsing, totalComputingProduction);
+    electricText.text = string.Format("Electricity: {0}/{1} {2:+0;-#}/s", currentElecRestore, totalElecRestore, totalElecContribution);
+    computationText.text = string.Format("Computation: {0}/{1}", totalComputingUsing, totalComputingProduction);
     float hpPercentage = totalMaxHp.Equals(0) ? 0 : (float)totalHp / (float)totalMaxHp;
-    HpText.text = string.Format("HP: {0}/{1}({2:P})", totalHp, totalMaxHp, hpPercentage);
+    hpText.text = string.Format("HP: {0}/{1}({2:P})", totalHp, totalMaxHp, hpPercentage);
   }
 	
 	// Update is called once per frame
 	void Update () {
+    if (gameOver) return;
     //Debug.Log(moduleList[0].hp);
     timer += Time.deltaTime;
     if(timer > 1)
@@ -140,6 +175,16 @@ public class Player : MonoBehaviour {
 
   void FixedUpdate()
   {
+    if (gameOver) return;
+    if(currentElecRestore <= 0)
+    {
+      currentElecRestore = 0;
+      return;
+    }
+    if(totalComputingUsing > totalComputingProduction)
+    {
+      return;
+    }
     MyCheckMove();
     for(int i = 0; i < ModuleInfo.TOT; i ++)
     {
@@ -166,8 +211,17 @@ public class Player : MonoBehaviour {
       toRight = !toRight;
     }
 
-    if(Input.GetKeyDown(KeyCode.LeftShift))
+    if(Input.GetKeyDown(KeyCode.LeftShift) || Time.time - beginPushTime <= 0.5)
     {
+      if(Input.GetKeyDown(KeyCode.LeftShift))
+      {
+        if(currentElecRestore < totalOmega)
+        {
+          return;
+        }
+        currentElecRestore -= totalOmega;
+        beginPushTime = Time.time;
+      }
       Vector2 dir = new Vector2(hori, vert).normalized;
       body.AddForce(pushForce * dir);
       return;
@@ -185,11 +239,15 @@ public class Player : MonoBehaviour {
           //Debug.Log("Climb");
         }
         else
+        {
           //transform.position -= new Vector3(0f, -slipspeed * Time.deltaTime);
+          //Debug.Log("slipping");
           body.MovePosition(body.position + new Vector2(0f, -slipspeed * Time.deltaTime));
+        }
       }
       else
       {
+        //Debug.Log("onair");
         transform.position += new Vector3(onAirDirection * velocity * Time.deltaTime, 0f);
         //not sure what to do yet
       }
@@ -320,14 +378,28 @@ public class Player : MonoBehaviour {
 
   void CheckShoot(WeaponModule wm)
   {
-    if(Input.GetMouseButton(0) && Time.time - wm.lastShootTime >= wm.shootingSpeed)
+    Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    Vector3 bulletpos = wm.obj.GetComponent<BoxCollider2D>().bounds.center;
+    mousepos.z = bulletpos.z = -1;
+    Vector3 direction = (mousepos - bulletpos).normalized;
+    Transform gunTransform = wm.obj.transform.GetChild(0);
+    float gunAngle = gunTransform.eulerAngles.z;
+    if(!toRight)
     {
-      //Debug.Log(wm.lastShootTime);
-      Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-      mousepos.z = 0;
-      Vector3 direction = (mousepos - transform.position).normalized;
-
-      GameObject bul = Instantiate(bullet, transform.position, Quaternion.identity) as GameObject;
+      if(gunAngle < 180)
+      {
+        gunAngle += 180;
+      }
+      else
+      {
+        gunAngle -= 180;
+      }
+    }
+    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+    gunTransform.RotateAround(bulletpos, Vector3.back, gunAngle - angle);
+    if (Input.GetMouseButton(0) && Time.time - wm.lastShootTime >= wm.shootingSpeed)
+    {
+      GameObject bul = Instantiate(bullet, bulletpos, Quaternion.identity) as GameObject;
       Bullet bulscript = bul.GetComponent<Bullet>();
       bulscript.shooter = gameObject;
       //bulletList.Add(bul);
@@ -400,6 +472,7 @@ public class Player : MonoBehaviour {
     return res;
   }
 
+  /*
   private void OnTriggerEnter2D(Collider2D collision)
   {
     if(collision.name == "testbullet")
@@ -431,6 +504,20 @@ public class Player : MonoBehaviour {
         }
       }
     }
+  }
+  */
+
+  public void HurtModule(int damagedNumber)
+  {
+    Module m = ModuleInfo.instance.moduleList[damagedNumber];
+    m.hp -= 5;
+    totalHp -= 5;
+    if (m.hp <= 0)
+    {
+      m.hp = 0;
+      RemoveModule(damagedNumber);
+    }
+    UpdateModule(damagedNumber);
   }
 
   void UpdateModule(int damagedNumber)
@@ -519,7 +606,7 @@ public class Player : MonoBehaviour {
         totalComputingProduction -= m.computingContribution;
       else
         totalComputingUsing -= -m.computingContribution;
-      totalElecContribution -= m.computingContribution;
+      totalElecContribution -= m.elecContribution;
       if (m.type == ModuleType.Power)
       {
         squarePower -= (m as PowerModule).beta;
@@ -529,8 +616,13 @@ public class Player : MonoBehaviour {
         pushForce = alpha * power;
       }
     }
-
+    Destroy(m.obj);
     workingModuleCount--;
+    if(m.type == ModuleType.Core || workingModuleCount == 0)
+    {
+      gameOverText.SetActive(true);
+      gameOver = true;
+    }
     m.type = ModuleType.None;
     UpdateText();
   }

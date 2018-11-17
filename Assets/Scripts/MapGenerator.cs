@@ -65,6 +65,10 @@ public class MapGenerator : MonoBehaviour {
     {
       SmoothMap(true);
     }
+    for(int i = 0; i < 3; i ++)
+    {
+      SmoothMap(false);
+    }
   }
 
   void RandomFillMap()

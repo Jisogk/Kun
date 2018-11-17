@@ -20,7 +20,7 @@ public class Block : MonoBehaviour {
   {
     if(collision.tag == "Bullet")
     {
-      hp--;
+      hp -= 2;
       if(hp <= 0)
       {
         Destroy(gameObject);

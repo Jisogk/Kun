@@ -17,11 +17,12 @@ public class DebugAttackScript : MonoBehaviour {
 		if(Input.GetMouseButton(1))
     {
       Vector3 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-      mousepos.z = 0;
+      mousepos.z = -1;
       Vector3 direction = (player.transform.position - mousepos).normalized;
 
       GameObject bul = Instantiate(bullet, mousepos, Quaternion.identity) as GameObject;
       bul.name = "testbullet";
+      Physics2D.IgnoreCollision(bul.GetComponent<CircleCollider2D>(), player.GetComponent<CapsuleCollider2D>());
       Bullet bulscript = bul.GetComponent<Bullet>();
       bulscript.shooter = gameObject;
 

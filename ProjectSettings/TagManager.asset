@@ -8,6 +8,7 @@ TagManager:
   - ModuleSelection
   - ModuleSlotPanel
   - Bullet
+  - ModuleObj
   layers:
   - Default
   - TransparentFX

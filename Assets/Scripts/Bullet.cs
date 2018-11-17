@@ -21,7 +21,8 @@ public class Bullet : MonoBehaviour {
     if(collision != null)
     {
       //Debug.Log(collision.gameObject.name);
-      if(collision != shooter.GetComponent<CapsuleCollider2D>() && collision.tag != "Bullet")
+      if(collision != shooter.GetComponent<CapsuleCollider2D>() && collision.tag != "Bullet"
+        && collision.transform.parent != shooter.transform)
         Destroy(gameObject);
     }
   }
