@@ -1576,7 +1576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91589192197f69743b15d3c767c64c36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomFillPercent: 35
+  randomFillPercent: 37
   wallTiles:
   - {fileID: 1323497706604572, guid: 26877a061c9ecda4290565cbab177dc8, type: 2}
   blockTiles:

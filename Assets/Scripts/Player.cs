@@ -203,8 +203,13 @@ public class Player : MonoBehaviour {
 
     float hori = Input.GetAxis("Horizontal");
     float vert = Input.GetAxis("Vertical");
+    bool horiMoving = false;
+    if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+    {
+      horiMoving = true;
+    }
 
-    if (!hori.Equals(0) && (hori > 0) ^ toRight)
+    if (horiMoving && (hori > 0) ^ toRight)
     {
       Vector3 originScale = transform.localScale;
       transform.localScale = new Vector3(-originScale.x, originScale.y, originScale.z);
@@ -230,7 +235,7 @@ public class Player : MonoBehaviour {
     if(!isGroundedFlag)
     {
       //Debug.Log("OnAir");
-      if(isNearWallFlag && !hori.Equals(0) && (toRight == (hori > 0)))
+      if(isNearWallFlag && horiMoving && (toRight == (hori > 0)))
       {
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -258,7 +263,7 @@ public class Player : MonoBehaviour {
     if (Input.GetKeyDown(KeyCode.Space))
     {
       //Debug.Log("Hah?");
-      if (isNearWallFlag && !hori.Equals(0) && (toRight == (hori > 0)))
+      if (isNearWallFlag && horiMoving && (toRight == (hori > 0)))
       {
         //transform.position += new Vector3(0f, climbheight);
         body.MovePosition(body.position + new Vector2(0f, climbheight));
@@ -278,7 +283,7 @@ public class Player : MonoBehaviour {
           onAirDirection = 0;
       }
     }
-    else if (!hori.Equals(0))
+    else if (horiMoving)
     {
       if (hori > 0)
       {
@@ -593,6 +598,8 @@ public class Player : MonoBehaviour {
   void RemoveModule(int damagedNumber)
   {
     Module m = ModuleInfo.instance.moduleList[damagedNumber];
+    if (m.type == ModuleType.None)
+      return;
     totalElecRestore -= m.elecRestore;
     if (currentElecRestore > totalElecRestore)
       currentElecRestore = totalElecRestore;
@@ -605,7 +612,7 @@ public class Player : MonoBehaviour {
       if (m.computingContribution >= 0)
         totalComputingProduction -= m.computingContribution;
       else
-        totalComputingUsing -= -m.computingContribution;
+        totalComputingUsing -= (-m.computingContribution);
       totalElecContribution -= m.elecContribution;
       if (m.type == ModuleType.Power)
       {
@@ -618,7 +625,7 @@ public class Player : MonoBehaviour {
     }
     Destroy(m.obj);
     workingModuleCount--;
-    if(m.type == ModuleType.Core || workingModuleCount == 0)
+    if(m.type == ModuleType.Core)
     {
       gameOverText.SetActive(true);
       gameOver = true;
