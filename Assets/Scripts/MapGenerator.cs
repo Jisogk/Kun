@@ -15,10 +15,17 @@ public class MapGenerator : MonoBehaviour {
   public GameObject[] wallTiles;
   public GameObject[] blockTiles;
   public GameObject player;
+  public GameObject enemy;
 
   public int smoothrounds;
 
   private List<GameObject> tiles = new List<GameObject>();
+
+  struct Pos {
+    public int x;
+    public int y;
+  }
+  private List<Pos> emptyPosList = new List<Pos>();
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +35,7 @@ public class MapGenerator : MonoBehaviour {
     Vector2 initpos = new Vector2(blocksize * 1.5f, blocksize * (height_cnt - 3));
     //player.GetComponent<Rigidbody2D>().MovePosition(initpos);
     player.transform.position = initpos;
+    InstansiateEnemys(5);
 	}
 	
 	// Update is called once per frame
@@ -171,7 +179,37 @@ public class MapGenerator : MonoBehaviour {
           tiles.Add(inst);
           //Debug.Log(gobj.GetComponent<SpriteRenderer>().bounds.size);
         }
+        else
+        {
+          Pos newpos;
+          newpos.x = i;
+          newpos.y = j;
+          emptyPosList.Add(newpos);
+        }
       }
+    }
+  }
+
+  void InstansiateEnemys(int enemyCount)
+  {
+    ShuffleList<Pos>(emptyPosList, enemyCount);
+    for(int i = 0; i < enemyCount; i ++)
+    {
+      Pos pos = emptyPosList[i];
+      Instantiate(enemy, new Vector3(pos.y * blocksize, pos.x * blocksize, 0), Quaternion.identity);
+    }
+  }
+
+  void ShuffleList<T>(List<T> list, int firstN = 0)
+  {
+    if (firstN == 0 || firstN > list.Count)
+      firstN = list.Count;
+    for(int i = 0; i < firstN; i ++)
+    {
+      T temp = list[i];
+      int randomIndex = Random.Range(i, list.Count);
+      list[i] = list[randomIndex];
+      list[randomIndex] = temp;
     }
   }
 }

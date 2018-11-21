@@ -19,7 +19,7 @@ public class ModuleObj : MonoBehaviour {
 
   private void OnTriggerEnter2D(Collider2D collision)
   {
-    if (collision.tag == "Bullet" && collision.name == "testbullet")
+    if (collision.tag == "Bullet" && collision.name != "playerbullet")
     {
       transform.parent.GetComponent<Player>().HurtModule(index, 5);
     }

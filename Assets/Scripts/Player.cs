@@ -263,6 +263,7 @@ public class Player : MonoBehaviour {
           //transform.position -= new Vector3(0f, -slipspeed * Time.deltaTime);
           //Debug.Log("slipping");
           body.MovePosition(body.position + new Vector2(0f, -slipspeed * Time.deltaTime));
+          body.velocity = new Vector2(body.velocity.x, 0);
         }
       }
       else
@@ -435,6 +436,7 @@ public class Player : MonoBehaviour {
     if (Input.GetMouseButton(0) && Time.time - wm.lastShootTime >= wm.shootingSpeed)
     {
       GameObject bul = Instantiate(bullet, bulletpos, Quaternion.identity) as GameObject;
+      bul.name = "playerbullet";
       Bullet bulscript = bul.GetComponent<Bullet>();
       bulscript.shooter = gameObject;
       //bulletList.Add(bul);

@@ -897,6 +897,14 @@ Prefab:
       propertyPath: m_GravityScale
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1404103423180788, guid: 880d33994b0959c4d819023e67f569bf, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1404103423180788, guid: 880d33994b0959c4d819023e67f569bf, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 880d33994b0959c4d819023e67f569bf, type: 2}
   m_IsPrefabParent: 0
@@ -1592,6 +1600,7 @@ MonoBehaviour:
   blockTiles:
   - {fileID: 1392743818180264, guid: bd96283a900f8674e9effa9133a44429, type: 2}
   player: {fileID: 244060920}
+  enemy: {fileID: 1625197984133738, guid: 805aa3d36d64dbd438911d846f8ce34a, type: 2}
   smoothrounds: 4
 --- !u!114 &1810606073
 MonoBehaviour:
