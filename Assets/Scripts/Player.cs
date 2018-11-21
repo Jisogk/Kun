@@ -246,19 +246,34 @@ public class Player : MonoBehaviour {
         else
         {
           //transform.position -= new Vector3(0f, -slipspeed * Time.deltaTime);
-          //Debug.Log("slipping");
+          Debug.Log("slipping");
           body.MovePosition(body.position + new Vector2(0f, -slipspeed * Time.deltaTime));
         }
       }
       else
       {
         //Debug.Log("onair");
-        transform.position += new Vector3(onAirDirection * velocity * Time.deltaTime, 0f);
+        if(!horiMoving)
+          transform.position += new Vector3(onAirDirection * velocity * Time.deltaTime, 0f);
+        else
+        {
+          if(hori > 0)
+          {
+            transform.position += new Vector3(velocity * Time.deltaTime, 0f);
+            onAirDirection = 1;
+          }
+          else
+          {
+            transform.position -= new Vector3(velocity * Time.deltaTime, 0f);
+            onAirDirection = -1;
+          }
+        }
         //not sure what to do yet
       }
       return;
     }
     //Debug.Log("Grounded");
+    body.velocity = new Vector2(0f, 0f);
 
     if (Input.GetKeyDown(KeyCode.Space))
     {

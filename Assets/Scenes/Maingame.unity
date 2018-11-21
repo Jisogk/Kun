@@ -811,7 +811,7 @@ Prefab:
     - target: {fileID: 114749816989333888, guid: 880d33994b0959c4d819023e67f569bf,
         type: 2}
       propertyPath: climbheight
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114749816989333888, guid: 880d33994b0959c4d819023e67f569bf,
         type: 2}
@@ -853,12 +853,12 @@ Prefab:
     - target: {fileID: 114749816989333888, guid: 880d33994b0959c4d819023e67f569bf,
         type: 2}
       propertyPath: gamma
-      value: 5
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 114749816989333888, guid: 880d33994b0959c4d819023e67f569bf,
         type: 2}
       propertyPath: alpha
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 114749816989333888, guid: 880d33994b0959c4d819023e67f569bf,
         type: 2}
@@ -887,6 +887,16 @@ Prefab:
       value: 
       objectReference: {fileID: 1897954712025502, guid: 3623bed33f70a1a47bd76a594d32dac0,
         type: 2}
+    - target: {fileID: 114749816989333888, guid: 880d33994b0959c4d819023e67f569bf,
+        type: 2}
+      propertyPath: jumpheight
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 50673223493380940, guid: 880d33994b0959c4d819023e67f569bf,
+        type: 2}
+      propertyPath: m_GravityScale
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 880d33994b0959c4d819023e67f569bf, type: 2}
   m_IsPrefabParent: 0
