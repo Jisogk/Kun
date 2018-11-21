@@ -21,7 +21,7 @@ public class ModuleObj : MonoBehaviour {
   {
     if (collision.tag == "Bullet" && collision.name == "testbullet")
     {
-      transform.parent.GetComponent<Player>().HurtModule(index);
+      transform.parent.GetComponent<Player>().HurtModule(index, 5);
     }
   }
 }

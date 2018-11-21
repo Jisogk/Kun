@@ -200,6 +200,21 @@ public class Player : MonoBehaviour {
   {
     bool isGroundedFlag = IsGrounded();
     bool isNearWallFlag = isNearWall();
+    if(isGroundedFlag)
+    {
+      if(!body.velocity.y.Equals(0) && body.velocity.y < -50)
+      {
+        int damage = (int)((-50 - body.velocity.y) * 0.25);
+        for(int i = 0; i < ModuleInfo.TOT; i ++)
+        {
+          Module m = ModuleInfo.instance.moduleList[i];
+          if(m.type != ModuleType.None)
+          {
+            HurtModule(i, damage);
+          }
+        }
+      }
+    }
 
     float hori = Input.GetAxis("Horizontal");
     float vert = Input.GetAxis("Vertical");
@@ -246,7 +261,7 @@ public class Player : MonoBehaviour {
         else
         {
           //transform.position -= new Vector3(0f, -slipspeed * Time.deltaTime);
-          Debug.Log("slipping");
+          //Debug.Log("slipping");
           body.MovePosition(body.position + new Vector2(0f, -slipspeed * Time.deltaTime));
         }
       }
@@ -527,11 +542,11 @@ public class Player : MonoBehaviour {
   }
   */
 
-  public void HurtModule(int damagedNumber)
+  public void HurtModule(int damagedNumber, int damage)
   {
     Module m = ModuleInfo.instance.moduleList[damagedNumber];
-    m.hp -= 5;
-    totalHp -= 5;
+    m.hp -= damage;
+    totalHp -= damage;
     if (m.hp <= 0)
     {
       m.hp = 0;
