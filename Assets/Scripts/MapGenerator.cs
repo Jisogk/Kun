@@ -179,7 +179,7 @@ public class MapGenerator : MonoBehaviour {
           tiles.Add(inst);
           //Debug.Log(gobj.GetComponent<SpriteRenderer>().bounds.size);
         }
-        else
+        else if (i < height_cnt - 4 || j > 2) 
         {
           Pos newpos;
           newpos.x = i;
@@ -192,10 +192,11 @@ public class MapGenerator : MonoBehaviour {
 
   void InstansiateEnemys(int enemyCount)
   {
-    ShuffleList<Pos>(emptyPosList, enemyCount);
+    ShuffleList(emptyPosList, enemyCount);
     for(int i = 0; i < enemyCount; i ++)
     {
       Pos pos = emptyPosList[i];
+
       Instantiate(enemy, new Vector3(pos.y * blocksize, pos.x * blocksize, 0), Quaternion.identity);
     }
   }

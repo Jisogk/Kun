@@ -94,6 +94,7 @@ MonoBehaviour:
   shootingSpeed: 0.2
   bulletSpeed: 50
   maxHp: 10
+  velocity: 4
 --- !u!212 &212797646917247870
 SpriteRenderer:
   m_ObjectHideFlags: 1

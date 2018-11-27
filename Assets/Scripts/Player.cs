@@ -25,7 +25,7 @@ public class Player : MonoBehaviour {
   private List<GameObject> bulletList;
 
   private float distToGround;
-  public LayerMask groundLayer;
+  private LayerMask groundLayer;
 
   private float totalElecRestore = 0;
   private float currentElecRestore = 0;
@@ -62,6 +62,7 @@ public class Player : MonoBehaviour {
     gameOver = false;
     body = GetComponent<Rigidbody2D>();
     toRight = true;
+    groundLayer = LayerMask.GetMask("Ground");
     onAirDirection = 0;
     bulletList = new List<GameObject>();
     capcollider = GetComponent<CapsuleCollider2D>();
@@ -226,9 +227,7 @@ public class Player : MonoBehaviour {
 
     if (horiMoving && (hori > 0) ^ toRight)
     {
-      Vector3 originScale = transform.localScale;
-      transform.localScale = new Vector3(-originScale.x, originScale.y, originScale.z);
-      toRight = !toRight;
+      TurnAround();
     }
 
     if(Input.GetKeyDown(KeyCode.LeftShift) || Time.time - beginPushTime <= 0.5)
@@ -329,6 +328,13 @@ public class Player : MonoBehaviour {
     }
     else
       onAirDirection = 0;
+  }
+  
+  void TurnAround()
+  {
+    Vector3 originScale = transform.localScale;
+    transform.localScale = new Vector3(-originScale.x, originScale.y, originScale.z);
+    toRight = !toRight;
   }
 
   /*
