@@ -55,12 +55,12 @@ public class DistributionPageButton : MonoBehaviour {
       gameObject.SetActive(false);
     }
   }
-
+  /*
   public void NextSceneClick()
   {
     SceneManager.LoadScene("Maingame");
   }
-
+  */
   public void PrevPlanClick()
   {
     PlanManager.instance.SwitchToPrevPlan();
