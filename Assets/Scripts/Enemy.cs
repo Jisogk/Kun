@@ -13,16 +13,19 @@ public class Enemy : MonoBehaviour {
   public float velocity;
 
   private float lastShootTime;
+  private float lastWalkTime;
   private int hp;
   private bool toRight;
   private CapsuleCollider2D capcollider;
   private LayerMask groundLayer;
   private Rigidbody2D body;
 
+
 	// Use this for initialization
 	void Start () {
     player = GameObject.FindGameObjectWithTag("Player");
     lastShootTime = -10f;
+    lastWalkTime = 0f;
     hp = maxHp;
     toRight = true;
     capcollider = GetComponent<CapsuleCollider2D>();
@@ -50,9 +53,14 @@ public class Enemy : MonoBehaviour {
     {
       if(isNearWallFlag || nearEdge)
       {
-        TurnAround();
+        if(Time.time - lastWalkTime > 1f)
+        {
+          TurnAround();
+          lastWalkTime = Time.time;
+        }
       }
-      body.MovePosition(body.position + new Vector2(velocity * Time.deltaTime, 0f));
+      else
+        body.MovePosition(body.position + new Vector2(velocity * Time.deltaTime, 0f));
     }
   }
 

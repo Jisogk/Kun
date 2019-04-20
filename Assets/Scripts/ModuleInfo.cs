@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ModuleInfo : MonoBehaviour {
 
@@ -40,9 +41,21 @@ public class ModuleInfo : MonoBehaviour {
 
     moduleSlotPanel = GameObject.Find("ModuleSlotPanel");
   }
-	
-	// Update is called once per frame
-	void Update () {
+
+  private void Start()
+  {/*
+    if(moduleList[0] != null)
+    {
+      for (int i = 0; i < TOT; i++)
+      {
+        Image img = moduleSlotPanel.transform.GetChild(i).GetComponent<Image>();
+        img.sprite = Resources.Load<Sprite>("Images/" + modImgMap[moduleList[i].type]);
+      }
+    }*/
+  }
+
+  // Update is called once per frame
+  void Update () {
 		
 	}
 

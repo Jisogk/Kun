@@ -25,7 +25,8 @@ public class Bullet : MonoBehaviour {
         shooterTransform = shooter.transform;
       if (collision.gameObject != shooter
         && !(collision.tag == "ModuleObj" && collision.transform.parent == shooterTransform)
-        && collision.tag != "Player")
+        && collision.tag != "Player"
+        && collision.tag != "Door")
       {
         //Debug.Log(collision.transform.parent);
         //Debug.Log(shooterTransform);
