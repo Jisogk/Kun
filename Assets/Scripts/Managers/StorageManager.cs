@@ -39,7 +39,7 @@ public class StorageManager : MonoBehaviour {
         if (DiagramList.Count == 0 || ModuleList.Count == 0)
         {
             initStandardSet();
-            PlayerStatus.instance.initCurDiagram();
+            //PlayerManager.instance.initCurDiagram();
         }
     }
 	
@@ -147,10 +147,10 @@ public class StorageManager : MonoBehaviour {
         if (tf.transform.tag.Equals("ModuleSlot"))
         {
             ModuleSlot ms = tf.GetComponent<ModuleSlot>();
-            if (PlayerStatus.instance.ModuleMap[ms.rawIndex, ms.rolIndex] != null)
+            if (PlayerManager.instance.ModuleMap[ms.rawIndex, ms.rolIndex] != null)
             {
                 icon = new GameObject("Icon", typeof(Image));
-                icon.GetComponent<Image>().sprite = PlayerStatus.instance.ModuleMap[ms.rawIndex, ms.rolIndex].Icon;
+                icon.GetComponent<Image>().sprite = PlayerManager.instance.ModuleMap[ms.rawIndex, ms.rolIndex].Icon;
                 icon.transform.SetParent(GameObject.Find("Canvas").transform);
                 icon.transform.SetAsLastSibling();
             }
@@ -195,7 +195,7 @@ public class StorageManager : MonoBehaviour {
             else if (enterTransfrom.tag.Equals("ModuleSlot"))
             {
                 enterms = enterTransfrom.GetComponent<ModuleSlot>();
-                PlayerStatus.instance.ModuleMap[enterms.rawIndex, enterms.rolIndex] = ModuleList[msu.Index];
+                PlayerManager.instance.ModuleMap[enterms.rawIndex, enterms.rolIndex] = ModuleList[msu.Index];
                 mSlots.UpdateModuleShow();
             }
             else
@@ -208,19 +208,19 @@ public class StorageManager : MonoBehaviour {
             if (enterTransfrom.tag.Equals("ModuleSlot"))
             {
                 enterms = enterTransfrom.GetComponent<ModuleSlot>();
-                PlayerStatus.instance.SwitchModule(prevms.rawIndex, prevms.rolIndex, enterms.rawIndex, enterms.rolIndex);
+                PlayerManager.instance.SwitchModule(prevms.rawIndex, prevms.rolIndex, enterms.rawIndex, enterms.rolIndex);
                 mSlots.UpdateModuleShow();
             }
             else
             {
-                PlayerStatus.instance.ModuleMap[prevms.rawIndex, prevms.rolIndex] = null ;
+                PlayerManager.instance.ModuleMap[prevms.rawIndex, prevms.rolIndex] = null ;
             }
             mSlots.UpdateModuleShow();
         }
     }
 
-    public void DragAndDrop_OnLeftDrag(PointerEventData eventData)
+    public void DragAndDrop_OnLeftDrag()
     {
-        icon.transform.position = eventData.position;
+        //icon.transform.position = eventData.position;
     }
 }

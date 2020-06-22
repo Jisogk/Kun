@@ -5,8 +5,8 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour {
 
   private int[,] map;
-  private int width_cnt = 66;
-  private int height_cnt = 66;
+  private int width_cnt = 31;
+  private int height_cnt = 31;
   private float blocksize = 4;
 
   [Range(0, 100)]
